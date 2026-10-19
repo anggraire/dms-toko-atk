@@ -14,9 +14,9 @@
             ['label' => 'Arsip Dokumen',   'route' => 'documents.index',  'match' => 'documents.index|documents.show|documents.edit', 'icon' => 'document'],
             ['label' => 'Unggah Dokumen',  'route' => 'documents.create', 'match' => 'documents.create|documents.verify', 'icon' => 'upload'],
         ],
-        'MASTER DATA' => [
-            ['label' => 'Kategori Dokumen','route' => 'categories.index', 'match' => 'categories.*', 'icon' => 'tag'],
-        ],
+        // 'MASTER DATA' => [
+        //     ['label' => 'Kategori Dokumen','route' => 'categories.index', 'match' => 'categories.*', 'icon' => 'tag'],
+        // ],
         'ANALITIK & SISTEM' => [
             ['label' => 'Laporan Rekap',   'route' => 'reports.index',    'match' => 'reports.*',    'icon' => 'chart'],
             ['label' => 'Log Aktivitas',   'route' => 'audit-logs.index', 'match' => 'audit-logs.*', 'icon' => 'clock', 'only' => 'pemilik'],
