@@ -17,9 +17,9 @@
     </div>
 
     {{-- Filter Toolbar Card --}}
-    <div class="card-base mb-6 p-4.5">
+    <div class="card-base mb-3 p-4.5">
         <form method="GET" action="{{ route('audit-logs.index') }}" class="flex flex-wrap items-end gap-3">
-            <div class="w-full sm:w-72">
+            <div class="w-full sm:w-72 p-4">
                 <label for="action" class="field-label">Filter Jenis Tindakan</label>
                 <select id="action" name="action" class="field-input">
                     <option value="">Semua Tindakan</option>
@@ -33,7 +33,7 @@
                     <option value="export" @selected(request('action') === 'export')>Ekspor Laporan</option>
                 </select>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 p-4">
                 <button type="submit" class="btn-primary !py-2.5">
                     Filter
                 </button>

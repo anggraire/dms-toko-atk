@@ -6,18 +6,6 @@
 
 @section('content')
 
-{{-- ─── Header + Upload CTA ──────────────────────────────────────────── --}}
-<div class="mb-6 flex flex-wrap items-center justify-between gap-4">
-    <p class="text-sm text-slate-500">
-        Pencarian, pemfilteran, dan pemantauan seluruh arsip nota faktur, kwitansi, dan kontrak toko.
-    </p>
-    <a href="{{ route('documents.create') }}" class="btn-primary">
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-        </svg>
-        <span>Unggah Dokumen Baru</span>
-    </a>
-</div>
 
 {{-- ─── Filter & Search Toolbar ─────────────────────────────────────── --}}
 <div class="card-base mb-6 p-4">
