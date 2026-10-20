@@ -28,26 +28,49 @@ class DocumentController extends Controller
 
     public function index(Request $request): View
     {
-        $query = Document::with(['category', 'creator'])
-            ->where('status', '!=', Document::STATUS_DRAFT);
+        $query = Document::with(['category', 'creator']);
+
+        // Filter status (default: selain draft)
+        if ($status = $request->input('status')) {
+            if ($status !== 'all') {
+                $query->where('status', $status);
+            }
+        } else {
+            $query->where('status', '!=', Document::STATUS_DRAFT);
+        }
 
         // Filter pencarian berdasarkan judul, nomor dokumen, atau supplier
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                   ->orWhere('document_number', 'like', "%{$search}%")
-                  ->orWhere('entity_name', 'like', "%{$search}%");
+                  ->orWhere('entity_name', 'like', "%{$search}%")
+                  ->orWhere('ocr_text', 'like', "%{$search}%");
             });
         }
 
-        // Filter berdasarkan kategori
+        // Filter berdasarkan kategori (category_id atau category_slug)
         if ($categoryId = $request->input('category_id')) {
             $query->where('category_id', $categoryId);
+        } elseif ($categorySlug = $request->input('category_slug')) {
+            $query->whereHas('category', function ($q) use ($categorySlug) {
+                $q->where('slug', $categorySlug);
+            });
         }
 
         // Filter berdasarkan status pembayaran
         if ($paymentStatus = $request->input('payment_status')) {
             $query->where('payment_status', $paymentStatus);
+        }
+
+        // Filter dokumen yang memiliki nilai nominal transaksi
+        if ($request->boolean('has_amount')) {
+            $query->where('total_amount', '>', 0);
+        }
+
+        // Filter tagihan mendekati atau lewat jatuh tempo
+        if ($request->boolean('due_soon')) {
+            $query->jatuhTempo(7);
         }
 
         $documents = $query->latest()->paginate(10)->withQueryString();

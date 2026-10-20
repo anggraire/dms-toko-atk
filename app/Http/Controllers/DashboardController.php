@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Document;
 use App\Services\ReminderService;
 use Illuminate\View\View;
@@ -32,6 +33,11 @@ class DashboardController extends Controller
         $dueSoonDocuments = $this->reminderService->getDueSoon(7, 5);
         $overdueCount = $this->reminderService->countOverdue();
 
+        // Ambil data kategori beserta jumlah dokumen tersimpan
+        $categories = Category::withCount(['documents' => function ($q) {
+            $q->where('status', '!=', Document::STATUS_DRAFT);
+        }])->get()->keyBy('slug');
+
         return view('dashboard.index', [
             'documents' => $documents,
             'totalDocuments' => $totalDocuments,
@@ -39,6 +45,7 @@ class DashboardController extends Controller
             'unpaidCount' => $unpaidCount,
             'dueSoonDocuments' => $dueSoonDocuments,
             'overdueCount' => $overdueCount,
+            'categories' => $categories,
         ]);
     }
 }
